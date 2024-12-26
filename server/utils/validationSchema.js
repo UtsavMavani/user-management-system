@@ -5,8 +5,7 @@ exports.loginSchema = Joi.object({
     "any.required": "Email is required",
     "string.email": "Invalid email format",
   }),
-  password: Joi.string().min(6).required().messages({
+  password: Joi.string().required().messages({
     "any.required": "Password is required",
-    "string.min": "Password must be at least 6 characters",
   }),
 });

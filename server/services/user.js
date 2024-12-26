@@ -11,12 +11,9 @@ const createUser = async (user) => {
   }
 };
 
-const getAllUser = async (filter, populate) => {
+const getAllUser = async (filter) => {
   try {
-    const result = await userModel
-      .find(filter)
-      .select(selectedField)
-      .populate(populate);
+    const result = await userModel.find(filter).select(selectedField);
     return result;
   } catch (error) {
     throw new Error(error.message);

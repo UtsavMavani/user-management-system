@@ -40,9 +40,13 @@ const createUserHandler = async (req, res) => {
 const getAllUserHandler = async (req, res) => {
   try {
     const filter = { ...req.query, status: STATUS.ACTIVE };
-    const populate = { path: "assignedTo", select: "name" };
 
-    const userList = await userService.getAllUser(filter, populate);
+    // Add additional filter for subadmin role
+    if (req.user.role === "subadmin") {
+      filter.$or = [{ assignedTo: req.user.id }, { _id: req.user.id }];
+    }
+
+    const userList = await userService.getAllUser(filter);
 
     return res.send({
       statusCode: 200,
