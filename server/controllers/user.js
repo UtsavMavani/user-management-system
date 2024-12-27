@@ -12,9 +12,9 @@ const createUserHandler = async (req, res) => {
       status: STATUS.ACTIVE,
     });
     if (userObj)
-      return res.send(
-        Boom.badData(MESSAGES.EMAIL_ALREADY_EXIST).output.payload
-      );
+      return res
+        .status(422)
+        .send(Boom.badData(MESSAGES.EMAIL_ALREADY_EXIST).output.payload);
 
     // Store hash password
     const hashPassword = await Bcrypt.hash(data.password, 10);
@@ -22,9 +22,9 @@ const createUserHandler = async (req, res) => {
 
     const user = await userService.createUser(data);
     if (!user)
-      return res.send(
-        Boom.notAcceptable(MESSAGES.FAILED_TO_CREATE).output.payload
-      );
+      return res
+        .status(422)
+        .send(Boom.badData(MESSAGES.FAILED_TO_CREATE).output.payload);
 
     return res.send({
       statusCode: 201,
@@ -68,7 +68,9 @@ const getOneUserHandler = async (req, res) => {
 
     const user = await userService.getUserById(id);
     if (!user)
-      return res.send(Boom.badData(MESSAGES.RECORD_NOT_FOUND).output.payload);
+      return res
+        .status(422)
+        .send(Boom.badData(MESSAGES.RECORD_NOT_FOUND).output.payload);
 
     return res.send({
       statusCode: 200,
@@ -87,11 +89,15 @@ const updateUserHandler = async (req, res) => {
 
     const userObj = await userService.getUserById(id);
     if (!userObj)
-      return res.send(Boom.badData(MESSAGES.RECORD_NOT_FOUND).output.payload);
+      return res
+        .status(422)
+        .send(Boom.badData(MESSAGES.RECORD_NOT_FOUND).output.payload);
 
     const user = await userService.updateUser(req.body, id);
     if (!user)
-      return res.send(Boom.badData(MESSAGES.FAILED_TO_UPDATE).output.payload);
+      return res
+        .status(422)
+        .send(Boom.badData(MESSAGES.FAILED_TO_UPDATE).output.payload);
 
     return res.send({
       statusCode: 200,
@@ -110,11 +116,15 @@ const deleteUserHandler = async (req, res) => {
 
     const userObj = await userService.getUserById(id);
     if (!userObj)
-      return res.send(Boom.badData(MESSAGES.RECORD_NOT_FOUND).output.payload);
+      return res
+        .status(422)
+        .send(Boom.badData(MESSAGES.RECORD_NOT_FOUND).output.payload);
 
     const user = await userService.updateUser({ status: STATUS.INACTIVE }, id);
     if (!user)
-      return res.send(Boom.badData(MESSAGES.FAILED_TO_DELETE).output.payload);
+      return res
+        .status(422)
+        .send(Boom.badData(MESSAGES.FAILED_TO_DELETE).output.payload);
 
     return res.send({
       statusCode: 200,

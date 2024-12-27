@@ -3,9 +3,15 @@ import { errorMessage, getGlobalItem } from "./utils/utils";
 
 export const axiosInstance = axios.create({
   baseURL: process.env.REACT_APP_BASE_URL,
-  headers: {
-    "x-access-token": getGlobalItem("token"),
-  },
+});
+
+axiosInstance.interceptors.request.use((config) => {
+  const token = getGlobalItem("token");
+  if (token) {
+    config.baseURL = process.env.REACT_APP_BASE_URL;
+    config.headers["x-access-token"] = token;
+  }
+  return config;
 });
 
 axiosInstance.interceptors.response.use(

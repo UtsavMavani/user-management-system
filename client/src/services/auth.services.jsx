@@ -1,5 +1,4 @@
 import { axiosInstance } from "../interceptor";
-import { successMessage } from "../utils/utils";
 
 export const authentication = async (data) => {
   try {

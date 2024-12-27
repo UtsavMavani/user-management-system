@@ -60,9 +60,10 @@ const MainLayout = () => {
       <Sider trigger={null} collapsible collapsed={collapsed}>
         <div className="px-6 py-4">
           <h1 className="text-2xl font-bold text-white capitalize">
-            {user?.role}
+            {!collapsed ? user?.role : ""}
           </h1>
         </div>
+
         <Menu
           className="mt-5"
           theme="dark"

@@ -62,7 +62,7 @@ function Users() {
   const getPaginatedData = (data) => {
     const startIndex = (current - 1) * params.limit;
     const endIndex = startIndex + params.limit;
-    return data.slice(startIndex, endIndex);
+    return data?.slice(startIndex, endIndex);
   };
 
   const onPageChange = (page, pageSize) => {
